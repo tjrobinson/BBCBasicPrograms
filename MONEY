@@ -1,0 +1,92 @@
+   10  MODE7
+   11  VDU 23;8202;0;0;0;
+   20  PRINT CHR$(141);CHR$(133);SPC(15);"MONEY"
+   30  PRINT CHR$(141);CHR$(133);SPC(15);"MONEY"
+   40  PRINT SPC(7);"By Martin & Thomas Robinson"
+   50  PRINT CHR$(150);
+   60  FOR A=1 TO 38 : PRINT CHR$(112); : NEXT A
+   70  VDU 28,0,24,39,5
+   80  PRINT CHR$(141);" This program adds the total value of"
+   90  PRINT CHR$(141);" This program adds the total value of"
+  100  PRINT CHR$(141);"            cash takings"
+  110  PRINT CHR$(141);"            cash takings"
+  120  PRINT 'SPC(12);"PRESS SPACE BAR"
+  130  REPEAT UNTIL GET=32
+  140  CLS
+  150  PRINT CHR$(141);"                NOTES:"
+  160  PRINT CHR$(141);"                NOTES:"'
+  170  INPUT "   Enter the number of `50 notes - "F
+  180  INPUT "   Enter the number of `20 notes - "T
+  190  INPUT "   Enter the number of `10 notes - "D
+  200  INPUT "   Enter the number of `5  notes - "H
+  210  PRINT
+  220  PRINT CHR$(141);"    Total value of notes is `"F*50+T*20+D*10+H*5
+  230  PRINT CHR$(141);"    Total value of notes is `"F*50+T*20+D*10+H*5
+  240  PRINT 'SPC(12);"PRESS SPACE BAR"
+  250  REPEAT UNTIL GET=32
+  260  CLS
+  270  PRINT CHR$(141);"             SILVER COINS:"
+  280  PRINT CHR$(141);"             SILVER COINS:"
+  290  PRINT
+  300  INPUT "   Enter the number of `1  coins - "P
+  310  INPUT "   Enter the number of 50p coins - "L
+  320  INPUT "   Enter the number of 20p coins - "S
+  330  INPUT "   Enter the number of 10p coins - "N
+  340  INPUT "   Enter the number of  5p coins - "V
+  350  PRINT
+  360 PRINT CHR$(141);"Total value of silver coins is `"P*1+L/2+S/5+N/10+V/20
+  370 PRINT CHR$(141);"Total value of silver coins is `"P*1+L/2+S/5+N/10+V/20
+  380  PRINT 'SPC(12);"PRESS SPACE BAR"
+  390  REPEAT UNTIL GET=32 : CLS
+  400  PRINT CHR$(141);"             COPPER COINS:"
+  410  PRINT CHR$(141);"             COPPER COINS:"
+  420  INPUT '"   Enter the number of 2p coins - "Q
+  430  INPUT "   Enter the number of 1p coins - "O
+  440  PRINT
+  450  PRINT CHR$(141);"   Total value of copper coins is "Q*2+O"p"
+  460  PRINT CHR$(141);"   Total value of copper coins is "Q*2+O"p"
+  470  PRINT 'SPC(12);"PRESS SPACE BAR"
+  480  REPEAT UNTIL GET=32 : CLS
+  490  CLS
+  500  LET G=F*50+T*20+D*10+H*5+P*1+L/2+S/5+N/10+V/20+Q/50+O/100
+  510  PRINT CHR$(141);"         GRAND TOTAL: `";G
+  520  PRINT CHR$(141);"         GRAND TOTAL: `";G
+  530  PRINT'"          Made up as follows:"'
+  540 PRINT"            `50 notes - ";F
+  550 PRINT"            `20 notes - ";T
+  560 PRINT"            `10 notes - ";D
+  570 PRINT"            `5  notes - ";H
+  580 PRINT"            `1  coins - ";P
+  590 PRINT"            50p coins - ";L
+  600 PRINT"            20p coins - ";S
+  610 PRINT"            10p coins - ";N
+  620 PRINT"             5p coins - ";V
+  630 PRINT"             1p coins - ";O
+  650 PRINT 'SPC(12);"PRESS SPACE BAR"
+  660  REPEAT UNTIL GET=32   
+  670  CLS
+  680  PRINT CHR$(141);"             BAG TOTALS:"
+  690  PRINT CHR$(141);"             BAG TOTALS:"'
+  700  PRINT"      Full bags of  `1 coins - ";P DIV 20
+  710  PRINT"      Full bags of 50p coins - ";P DIV 20
+  720  PRINT"      Full bags of 20p coins - ";S DIV 50
+  730  PRINT"      Full bags of 10p coins - ";N DIV 50
+  740  PRINT"      Full bags of  5p coins - ";V DIV 100
+  750  PRINT"      Full bags of  2p coins - ";Q
+  760  PRINT"      Full bags of  1p coins - ";O DIV 100
+  770  PRINT 'SPC(12);"PRESS SPACE BAR"
+  780  REPEAT UNTIL GET=32 : CLS
+  790  PRINT CHR$(141);"           REMAINING COINS:"
+  792  PRINT CHR$(141);"           REMAINING COINS:"'
+  800  PRINT "             `1 coins - ";P MOD 20
+  810  PRINT "            50p coins - ";L MOD 20
+  820  PRINT "            20p coins - ";S MOD 50
+  830  PRINT "            10p coins - ";N MOD 50
+  840  PRINT "             5p coins - ";V MOD 100
+  850  PRINT "             2p coins - ";Q MOD 50
+  860  PRINT "             1p coins - ";O MOD 100
+  870  PRINT
+  880  PRINT 'SPC(12);"PRESS SPACE BAR"
+  890  REPEAT UNTIL GET=32 : MODE 7
+  900  PRINT CHR$(141);"           HAVE A NICE DAY"
+  910  PRINT CHR$(141);"           HAVE A NICE DAY"
