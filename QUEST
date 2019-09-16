@@ -1,0 +1,96 @@
+   10  CLS
+   20  VDU 3
+   30  GOTO 730
+   40  MODE7
+   50  PRINT "What is your name"
+   60  INPUT A$
+   70  CLS
+   80  PRINT "How old are you"
+   90  INPUT B
+  100  CLS
+  110  IF B>18 GOTO 140
+  120  IF B<18 GOTO 180
+  130  IF B=18 GOTO 140
+  140  PRINT"Are you a man or a lady"
+  150  INPUT C$
+  160  CLS
+  170  GOTO 200
+  180  PRINT"Are you a boy or a girl"
+  190  INPUT C$
+  200  CLS
+  210  PRINT "What colour is your hair"
+  220  INPUT D$
+  230  CLS
+  240  PRINT "What colour are your eyes"
+  250  INPUT E$
+  260  CLS
+  270  PRINT "What is your favourite book called"
+  280  INPUT F$
+  290  CLS
+  300  PRINT "What is the number of your house"
+  310  INPUT G
+  320  CLS
+  330  PRINT "What is the name of the road you live"
+  340  PRINT "in ";
+  350  INPUT H$
+  360  CLS
+  370  PRINT "What town, village or city do you live"
+  380  PRINT "in ";
+  390  INPUT I$
+  400  CLS  660  PRINT
+
+  410  PRINT "What is your postcode"
+  420  INPUT J$
+  430  CLS
+  440  PRINT "Do you want the information printed"
+  450  K$=GET$
+  460  CLS
+  470  IF K$="Y" GOTO 500
+  480  IF K$="N" GOTO 560
+  490  IF K$<>"Y" OR K$<>"N" PRINT CHR$(7) : GOTO 430
+  500  CLS
+  510  PRINT "Make sure the printer is on and has"
+  520  PRINT "been SELected then press any key"
+  530  HJK=GET
+  540  CLS
+  550  VDU 2
+  560  PRINT
+  570  PRINT "Name = ";A$
+  580  PRINT "Age = ";B;" year old ";C$
+  590  PRINT "Hair colour = ";D$
+  600  PRINT "Eye colour = ";E$
+  610  PRINT "Favourite book = ";F$
+  620  PRINT
+  630  PRINT "Address = ";G;" ";H$ 
+  640  PRINT "          ";I$
+  650  PRINT "          ";J$
+  670  VDU 3
+  680  PRINT "Press any key to continue..."
+  690  A=GET
+  700  A=0
+  710  CLS
+  720  GOTO 860
+  730  CLS : PRINT "Do you want to load a file"        
+  740  F$=GET$
+  750  IF F$="N" GOTO 40 
+  760  IF F$="Y" GOTO 780
+  770  GOTO 20
+  780  PRINT : PRINT "Filename : " F$
+  800  PRINT : PRINT "Loading please wait..."
+  810  A=OPENIN(Z$)
+  820  INPUT#A,A$,B,C$,D$,E$,F$,G,H$,I$,J$ 
+  830  CLOSE#A
+  840  CLS
+  850  GOTO 430
+  860  PRINT "Do you want the information saved"
+  870  A$=GET$
+  880  IF A$="N" CLS : GOTO 20
+  890  IF A$="Y" CLS : GOTO 910
+  900  GOTO 730
+  910  INPUT "Filename : " Z$
+  920  PRINT "Saving please wait..."  
+  930  B=OPENOUT(Z$)
+  940  PRINT#B,A$,B,C$,D$,E$,F$,G,H$,I$,J$ 
+  950  CLOSE#B
+  951  PRINT:PRINT
+  960  GOTO 20

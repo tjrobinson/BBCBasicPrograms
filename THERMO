@@ -1,0 +1,35 @@
+   10  REM Anologue Port
+   20  REM Thermometer
+   30  SCALE=72
+   40  SHIFT=0
+   50  VERT=65536/SCALE
+   60  MODE1
+   70  VDU 5
+   80  FOR Y=0 TO 100 STEP 10
+   90  MOVE 132,Y*9+24
+  100  PRINT Y
+  110  MOVE-160,Y*9+24
+  120  PRINT Y*1.8+32
+  130  MOVE 180,Y*9+12
+  140  DRAW 350,Y*9+12
+  150  NEXT Y
+  160  VDU4,23,1,0;0;0;0;
+  170  PRINT TAB(25,20);"deg. centigrade"
+  180  PRINT TAB(25,24);"deg. fahrenheit"
+  190  PRINT TAB(25,28);"deg. Kelvin"
+  200  deg=ADVAL(2)
+  210  A=16*SHIFT*9+VERT-(65536-deg)/SCALE
+  220  FORX=256 TO 272 STEP 16
+  230  GCOL 0,1
+  240  MOVE X,0
+  250  DRAW X,A
+  260  GCOL 0,2
+  270  MOVE X,1023
+  280  DRAW X,A
+  290  NEXT X
+  300  PRINT TAB(19,20);INT(deg/SCALE/9+SHIFT);"  "
+  310  PRINT TAB(19,24);INT(deg/SCALE/5+32+SHIFT)*1.8;""
+  320  PRINT TAB(19,28);INT(deg/SCALE/9+276+SHIFT);"  "
+  330  GOTO 200
+  340  BBC Hardware Projects - Page 105
+  350  Filename - "A.THERMO"

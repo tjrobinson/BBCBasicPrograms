@@ -1,0 +1,9 @@
+   10  CLS
+   20  PRINT TAB(RND(9000)) "."  
+   30  PRINT TAB(20,11)"  *  "
+   40  PRINT TAB(20,12)" *** "
+   50  PRINT TAB(20,13)"*****"
+   60  PRINT TAB(20,14)"*****"
+   70  PRINT TAB(20,15)"VVVVV"
+   80  PRINT TAB(20,16)"{{{{{"
+   90  GOTO 20

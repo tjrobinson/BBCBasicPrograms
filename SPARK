@@ -1,0 +1,12 @@
+   10  REM Using PLOT 4, 5 AND 7
+   20  REM "Electric spark"
+   30  MODE 5
+   40  REPEAT
+   50  X=RND(1280)-1
+   60  Y=RND(1024)-1
+   70  PLOT 4,0,0
+   80  PLOT 5,X,Y
+   90  SOUND 15,-15,RND(4),1
+  100  PLOT 4,0,0      
+  110  PLOT 5,X,Y    
+  120  UNTIL FALSE

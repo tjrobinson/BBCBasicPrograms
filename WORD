@@ -1,0 +1,25 @@
+   10  GOTO 30
+   20  END
+   30  CLS
+   40  REM A PROGRAM TO 
+   50 REM WRITE STORYS
+   60 REM AND SAVE THEM
+   70  PRINT "****************************************"
+   80  PRINT "****MENU FOR THOMAS' WRITING PROGRAM****"
+   90  PRINT "****************************************"
+  100  PRINT
+  110  PRINT
+  120 PRINT" No. Choice                "
+  130 PRINT"f0  Finish program        "
+  140 PRINT"f1  Enter piece of writing"
+  150 PRINT"f2  Delete writing        "
+  160 PRINT"f1  Save piece of writing "
+  170 PRINT"f4  Load piece of writing "
+  180 PRINT"f5  Return to this menu  "
+  190  INPUT A$
+  200  IF A$=0 THEN GOTO 10
+  210  IF A$=1 THEN GOTO
+  220  IF A$=2 THEN GOTO
+  230  IF A$=3 THEN GOTO
+  240  IF A$=4 THEN GOTO
+  250  IF A$=5 THEN GOTO   
