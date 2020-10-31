@@ -1,6 +1,6 @@
-10  MODE7
-15  PRINT CHR$(141);"            ADVENT CANDLE"
-20  PRINT CHR$(141);"            ADVENT CANDLE"
+10 MODE7
+15 PRINT CHR$(141);"            ADVENT CANDLE"
+20 PRINT CHR$(141);"            ADVENT CANDLE"
 30  PRINT 'CHR$(133)"Welcome to the advent candle program."
 40  PRINT 'CHR$(133)"The candle will ignite if you press"
 50  PRINT 'CHR$(133)"the space bar. Once lit press space bar"
