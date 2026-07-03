@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BBC BASIC Programs</title>
+<meta name="description" content="A collection of BBC BASIC programs written for the BBC Micro Model B in the late 80s and early 90s. Run them in your browser via jsbeeb.">
+<style>
+  :root {
+    --bg: #0d0d10;
+    --panel: #16161c;
+    --panel-hover: #1d1d26;
+    --border: #2a2a35;
+    --text: #e8e8e8;
+    --dim: #9a9aa5;
+    --yellow: #ffd24d;
+    --cyan: #4dd8e8;
+    --red: #ff5c5c;
+    --green: #58d858;
+    --magenta: #e86ee8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    line-height: 1.5;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px 60px; }
+
+  header { padding: 44px 0 8px; }
+  h1 {
+    font-size: 1.7rem;
+    margin: 0 0 4px;
+    letter-spacing: 0.02em;
+  }
+  h1 .prompt { color: var(--yellow); }
+  h1 .cursor {
+    display: inline-block;
+    width: 0.55em; height: 1.1em;
+    background: var(--text);
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    animation: blink 1.06s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .subtitle { color: var(--dim); margin: 0 0 10px; max-width: 640px; }
+  .subtitle a { color: var(--dim); text-decoration: underline; }
+  .subtitle a:hover { color: var(--text); }
+
+  /* ---- card grid ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 16px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background 0.12s, border-color 0.12s, transform 0.12s;
+    color: var(--text);
+  }
+  .card:hover {
+    background: var(--panel-hover);
+    border-color: #3d3d4d;
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .card h2 { font-size: 1rem; margin: 0; color: var(--yellow); font-weight: 600; }
+  .card p { margin: 0; font-size: 0.82rem; color: var(--dim); flex: 1; }
+  .card .meta { display: flex; gap: 6px; margin-top: 6px; }
+  .tag {
+    font-size: 0.68rem;
+    padding: 1px 8px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    color: var(--dim);
+  }
+  .tag.game     { color: var(--green);   border-color: color-mix(in srgb, var(--green) 40%, transparent); }
+  .tag.quiz     { color: var(--cyan);    border-color: color-mix(in srgb, var(--cyan) 40%, transparent); }
+  .tag.graphics { color: var(--magenta); border-color: color-mix(in srgb, var(--magenta) 40%, transparent); }
+  .tag.music    { color: var(--red);     border-color: color-mix(in srgb, var(--red) 40%, transparent); }
+  .tag.utility  { color: var(--yellow);  border-color: color-mix(in srgb, var(--yellow) 40%, transparent); }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    color: var(--dim);
+    font-size: 0.8rem;
+  }
+
+  /* ---- run view ---- */
+  .run-view { display: none; }
+  .run-view.active { display: block; }
+  .grid-view.hidden, header.hidden, footer.hidden { display: none; }
+
+  .run-bar {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 22px 0 14px;
+  }
+  .run-bar h2 { margin: 0; font-size: 1.2rem; color: var(--yellow); }
+  .back {
+    color: var(--dim);
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 3px 12px;
+  }
+  .back:hover { color: var(--text); border-color: #3d3d4d; }
+  .run-bar .spacer { flex: 1; }
+  .run-bar .links { font-size: 0.8rem; }
+  .run-bar .links a, .run-bar .links button {
+    color: var(--cyan);
+    background: none; border: none; font: inherit; font-size: 0.8rem;
+    cursor: pointer; padding: 0; margin-left: 16px;
+  }
+  .run-bar .links a:hover, .run-bar .links button:hover { text-decoration: underline; }
+
+  .screen {
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    max-height: 78vh;
+    margin: 0 auto;
+  }
+  .screen iframe {
+    width: 100%; height: 100%;
+    border: 0; display: block;
+    background: #000;
+  }
+  .run-note {
+    margin: 12px 2px 0;
+    font-size: 0.8rem;
+    color: var(--dim);
+  }
+  .run-note strong { color: var(--yellow); font-weight: 600; }
+
+  .listing {
+    display: none;
+    margin-top: 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    color: var(--text);
+    white-space: pre;
+  }
+  .listing.open { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header id="header">
+    <h1><span class="prompt">&gt;</span>BBC BASIC Programs<span class="cursor"></span></h1>
+    <p class="subtitle">
+      Programs written for the BBC Micro Model B in the late 80s and early 90s.
+      Click one to run it right here, emulated in your browser by
+      <a href="https://github.com/mattgodbolt/jsbeeb">jsbeeb</a>.
+    </p>
+  </header>
+
+  <main>
+    <div class="grid grid-view" id="grid"></div>
+
+    <div class="run-view" id="runView">
+      <div class="run-bar">
+        <button class="back" id="backBtn">&larr; Index</button>
+        <h2 id="runTitle"></h2>
+        <span class="spacer"></span>
+        <span class="links">
+          <button id="listingBtn">View listing</button>
+          <a id="fullLink" target="_blank" rel="noopener">Open in jsbeeb &nearr;</a>
+        </span>
+      </div>
+      <div class="screen"><iframe id="beeb" title="BBC Micro emulator" allow="autoplay"></iframe></div>
+      <p class="run-note" id="runNote"></p>
+      <pre class="listing" id="listing"></pre>
+    </div>
+  </main>
+
+  <footer id="footer">
+    Source on <a href="https://github.com/tjrobinson/BBCBasicPrograms">GitHub</a>
+    &middot; Emulation by <a href="https://github.com/mattgodbolt/jsbeeb">jsbeeb</a> (GPL v3)
+  </footer>
+
+</div>
+
+<script>
+const PROGRAMS = [
+  { id: "advent-calendar", name: "Advent Calendar", file: "Advent Calendar/ADVENT.bbc", tag: "graphics",
+    desc: "Light an advent candle and burn the wax away, one press of the space bar at a time." },
+  { id: "birthday", name: "Birthday", file: "Birthday/BIRTHDAY.bbc", tag: "graphics",
+    desc: "A flashing Happy Birthday greeting for the person of your choice, with celebratory random bleeps." },
+  { id: "money", name: "Money", file: "Money/MONEY.bbc", tag: "utility",
+    desc: "Adds up the total value of cash takings, note by note and coin by coin." },
+  { id: "music", name: "Music", file: "Music/MUSIC.bbc", tag: "music",
+    desc: "A music composer: enter notes bar by bar, set the tempo, add repeats and play it back." },
+  { id: "password", name: "Password", file: "Password/PASSWORD.bbc", tag: "game",
+    desc: "Set a password, then see if you can remember it. Security was simpler in the 80s." },
+  { id: "quest", name: "Quest", file: "Quest/QUEST.bbc", tag: "game",
+    desc: "An interactive story that asks who you are and takes it from there." },
+  { id: "capital-quiz", name: "Quizmaster: Capital Quiz", file: "Quizmaster Capital Quiz/CQUIZ.bbc", tag: "quiz",
+    desc: "Name the capital cities of the world, as they stood at the end of the Cold War.",
+    note: "Uses the Acorn Speech System (*SAY), which the emulator doesn't support &mdash; the program may stop with a Bad command error." },
+  { id: "language-quiz", name: "Quizmaster: Language Quiz", file: "Quizmaster Language Quiz/LQUIZ.bbc", tag: "quiz",
+    desc: "Which language do they speak there? Fifteen questions from the Quizmaster.",
+    note: "Uses the Acorn Speech System (*SAY), which the emulator doesn't support &mdash; the program may stop with a Bad command error." },
+  { id: "rocket", name: "Rocket", file: "Rocket/ROCKET.bbc", tag: "graphics",
+    desc: "A rocket on the launch pad under an endlessly twinkling starfield." },
+  { id: "spark", name: "Spark", file: "Spark/SPARK.bbc", tag: "graphics",
+    desc: "Electric sparks leap across the screen with crackling sound effects." },
+  { id: "stereo", name: "Stereo", file: "Stereo/STEREO.bbc", tag: "graphics",
+    desc: "A picture of a stereo system, complete with graphic equaliser bars." },
+  { id: "tartan", name: "Tartan", file: "Tartan/TARTAN.bbc", tag: "graphics",
+    desc: "Weaves an ever-changing tartan pattern in glorious eight-colour MODE 2." },
+  { id: "tell-me", name: "Tell Me", file: "Tell Me/TELLME.bbc", tag: "game",
+    desc: "A two-player quiz game: think of something, then answer the Beeb's questions about it." },
+  { id: "thermometer", name: "Thermometer", file: "Thermometer/THERMO.bbc", tag: "utility",
+    desc: "Reads a thermometer on the analogue port and plots the temperature in &deg;C, &deg;F and Kelvin.",
+    note: "Reads the analogue port, so in the emulator it shows the (fixed) joystick value rather than a real temperature." },
+  { id: "times-tables", name: "Times Tables", file: "Times Tables/TABLES.bbc", tag: "quiz",
+    desc: "Pick a times table to learn, study it, then take the ten-question test." },
+  { id: "tr-dos", name: "TR-DOS", file: "TR-DOS/TRDOS.bbc", tag: "utility",
+    desc: "A pretend PC command prompt for the Beeb &mdash; change drives, list directories, even start Windows 95." },
+  { id: "walk", name: "Walk", file: "Walk/WALK.bbc", tag: "game",
+    desc: "How many paces must Fred take to get home? Guess right and watch him walk." },
+  { id: "word", name: "Word", file: "Word/WORD.bbc", tag: "utility",
+    desc: "Thomas' writing program: a menu-driven word processor for writing and saving stories." },
+];
+
+const TAG_LABELS = { game: "Game", quiz: "Quiz", graphics: "Graphics", music: "Music", utility: "Utility" };
+const JSBEEB = "jsbeeb/";
+
+const grid = document.getElementById("grid");
+const runView = document.getElementById("runView");
+const header = document.getElementById("header");
+const footer = document.getElementById("footer");
+const beeb = document.getElementById("beeb");
+const listing = document.getElementById("listing");
+const listingBtn = document.getElementById("listingBtn");
+
+for (const p of PROGRAMS) {
+  const card = document.createElement("a");
+  card.className = "card";
+  card.href = "#/" + p.id;
+  card.innerHTML =
+    "<h2>" + p.name + "</h2>" +
+    "<p>" + p.desc + "</p>" +
+    '<div class="meta"><span class="tag ' + p.tag + '">' + TAG_LABELS[p.tag] + "</span></div>";
+  grid.appendChild(card);
+}
+
+document.getElementById("backBtn").addEventListener("click", () => { location.hash = ""; });
+listingBtn.addEventListener("click", () => {
+  const open = listing.classList.toggle("open");
+  listingBtn.textContent = open ? "Hide listing" : "View listing";
+});
+
+async function showProgram(p) {
+  document.title = p.name + " – BBC BASIC Programs";
+  grid.classList.add("hidden");
+  header.classList.add("hidden");
+  footer.classList.add("hidden");
+  runView.classList.add("active");
+  document.getElementById("runTitle").textContent = p.name;
+  document.getElementById("runNote").innerHTML =
+    (p.note ? "<strong>Note:</strong> " + p.note + "<br>" : "") +
+    "Click the screen to give the Beeb your keyboard. If a program ends or you break out with Escape, type <strong>RUN</strong> and press Enter to start it again.";
+  listing.classList.remove("open");
+  listing.textContent = "";
+  listingBtn.textContent = "View listing";
+  beeb.removeAttribute("src");
+
+  let source;
+  try {
+    const resp = await fetch(encodeURI(p.file));
+    if (!resp.ok) throw new Error(resp.status + " " + resp.statusText);
+    source = await resp.text();
+  } catch (err) {
+    document.getElementById("runNote").innerHTML =
+      "<strong>Sorry</strong> &mdash; couldn't load " + p.file + " (" + err.message + ").";
+    return;
+  }
+  listing.textContent = source;
+  // jsbeeb's tokeniser can't cope with whitespace before line numbers, so
+  // strip the indentation these listings use.
+  const program = source.split("\n").map((l) => l.replace(/^\s+/, "")).join("\n");
+  // Note: embedBasic tokenises the program, puts it in PAGE and types RUN by
+  // itself; adding autorun as well makes jsbeeb attempt a *TAPE boot that hangs.
+  const query = "?embed&embedBasic=" + encodeURIComponent(program);
+  beeb.src = JSBEEB + query;
+  document.getElementById("fullLink").href = JSBEEB + "?embedBasic=" + encodeURIComponent(program);
+}
+
+function showIndex() {
+  document.title = "BBC BASIC Programs";
+  runView.classList.remove("active");
+  grid.classList.remove("hidden");
+  header.classList.remove("hidden");
+  footer.classList.remove("hidden");
+  beeb.removeAttribute("src"); // stop the emulator (and its sound)
+}
+
+function route() {
+  const id = location.hash.replace(/^#\/?/, "");
+  const p = PROGRAMS.find((x) => x.id === id);
+  if (p) showProgram(p); else showIndex();
+}
+
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
